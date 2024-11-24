@@ -30,7 +30,10 @@ async def add_cliente(cliente: Cliente):
         raise HTTPException(status_code=400, detail="Tipo de atendimento deve ser 'N' ou 'P'")
     cliente.data_chegada = datetime.now()
     cliente.atendido = False
-    fila.append(cliente)
+    if cliente.tipo_atendimento == "P": 
+        fila.insert(0, cliente) 
+    else: 
+        fila.append(cliente)
     return {"message": "Cliente adicionado com sucesso"}
 
 @app.put("/fila")
